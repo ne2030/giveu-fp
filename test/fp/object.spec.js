@@ -1,7 +1,7 @@
 const test = require('../testFns');
 
 const {
-    dic, val, pick, pickable, get, set, omitObj, changeKey, pickDeep, deepOmit
+    dic, val, pick, pickable, get, set, omitObj, changeKey, deepPick, deepOmit
 } = require('../../lib/object');
 
 const object = { a: 10, b: 20, c: [1, 2] };
@@ -81,13 +81,13 @@ describe(
 
             it('assign value 2 or more depth', () => {
                 const assignN = set(['a', 'b', 'c', 'd'], 'e');
-                test.deepEqual(assignN({}), { a: { b: { c: { d: 'e' } } } });
+                test.deepEqual(assignN({ a: { b: { c: {} } } }), { a: { b: { c: { d: 'e' } } } });
             });
 
             it('should throw error when middle key is isFalsy object', () => {
                 const obj = { a: { b: 1 } };
                 const assignA = set(['a', 'b', 'd'], 2);
-                test.throw(() => assignA(obj));
+                test.deepEqual(assignA(obj), obj);
             });
         });
 
@@ -156,7 +156,7 @@ describe(
             });
         });
 
-        describe('pickDeep', () => {
+        describe('deepPick', () => {
             const deep = {
                 a: 1,
                 b: 2,
@@ -172,13 +172,13 @@ describe(
 
             it('should pick deep object', () => {
                 const deepPattern = ['a', { n: 'c', p: ['aa', { n: 'cc', p: ['aaa'] }] }];
-                const result = pickDeep(deepPattern, deep);
+                const result = deepPick(deepPattern, deep);
                 test.deepEqual(result, { a: 1, c: { aa: 10, cc: { aaa: 100 } } });
             });
 
             it('curried pick deep object', () => {
                 const deepPattern = ['a', { n: 'c', p: ['aa', { n: 'cc', p: ['aaa'] }] }];
-                const result = pickDeep(deepPattern)(deep);
+                const result = deepPick(deepPattern)(deep);
                 test.deepEqual(result, { a: 1, c: { aa: 10, cc: { aaa: 100 } } });
             });
         });
