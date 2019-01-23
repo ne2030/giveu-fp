@@ -1,0 +1,37 @@
+{
+  "name": "giveu-fputil",
+  "version": "1.0.0",
+  "description": "Giveu service functional library",
+  "author": {
+    "name": "ne2030",
+    "email": "erguono@gmail.com",
+    "url": "https://github.com/ne2030"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc mocha 'test/fp/*.spec.js' --exit"
+  },
+  "keywords": [],
+  "licenses": "MIT",
+  "dependencies": {
+    "fxjs2": "^0.1.9",
+    "immer": "^1.11.0",
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "chalk": "^2.4.1",
+    "eslint": "^5.2.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-fp": "^2.3.0",
+    "eslint-plugin-import": "^2.13.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "should": "^13.2.2"
+  },
+  "nyc": {
+    "exclude": [
+      "test/",
+      "node_modules"
+    ]
+  }
+}
