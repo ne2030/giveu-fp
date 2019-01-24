@@ -171,13 +171,13 @@ describe(
             };
 
             it('should pick deep object', () => {
-                const deepPattern = ['a', { n: 'c', p: ['aa', { n: 'cc', p: ['aaa'] }] }];
+                const deepPattern = ['a', { c: ['aa', { cc: ['aaa'] }] }];
                 const result = deepPick(deepPattern, deep);
                 test.deepEqual(result, { a: 1, c: { aa: 10, cc: { aaa: 100 } } });
             });
 
             it('curried pick deep object', () => {
-                const deepPattern = ['a', { n: 'c', p: ['aa', { n: 'cc', p: ['aaa'] }] }];
+                const deepPattern = ['a', { c: ['aa', { cc: ['aaa'] }] }];
                 const result = deepPick(deepPattern)(deep);
                 test.deepEqual(result, { a: 1, c: { aa: 10, cc: { aaa: 100 } } });
             });
