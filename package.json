@@ -1,6 +1,6 @@
 {
   "name": "giveu-fp",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Giveu service functional library",
   "author": {
     "name": "ne2030",
@@ -14,7 +14,7 @@
   "keywords": [],
   "licenses": "MIT",
   "dependencies": {
-    "fxjs2": "^0.1.9",
+    "fxjs2": "^0.2.0",
     "immer": "^1.11.0",
     "moment": "^2.24.0"
   },
