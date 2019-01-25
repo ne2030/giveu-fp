@@ -1,10 +1,10 @@
 const {
-    constant, identity
+    pipeS, constant, identity
 } = require('fxjs2');
 const test = require('../testFns');
 
 const {
-    ifElse, multiFn, allPass, anyPass, or
+    ifElse, stopIf, goIf, multiFn, allPass, anyPass, or
 } = require('../../lib/logic');
 
 const {
@@ -29,6 +29,54 @@ describe(
 
             it('if predicate is false, call else function', () => {
                 test.equal('else', result(false));
+            });
+        });
+
+        describe('stopIf', () => {
+            const basic = pipeS(
+                stopIf(identity),
+                aFin
+            );
+
+            const withReturn = pipeS(
+                stopIf(identity, aMid),
+                aFin
+            );
+
+            it('should stop pipe if predicate is truthy', () => {
+                test.equal(10, basic(10));
+            });
+
+            it('should call returnFn when predicate is truthy', () => {
+                test.equal('Mid', withReturn(true));
+            });
+
+            it('should continue pipe if predicate is falsy', () => {
+                test.equal('Fin', basic(false));
+            });
+        });
+
+        describe('goIf', () => {
+            const basic = pipeS(
+                goIf(identity),
+                aFin
+            );
+
+            const withReturn = pipeS(
+                goIf(identity, aMid),
+                aFin
+            );
+
+            it('should go pipe if predicate is truthy', () => {
+                test.equal('Fin', basic(true));
+            });
+
+            it('should call returnFn when predicate is falsy', () => {
+                test.equal('Mid', withReturn(false));
+            });
+
+            it('should stop pipe if predicate is falsy', () => {
+                test.equal(false, basic(false));
             });
         });
 
