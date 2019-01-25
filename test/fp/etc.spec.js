@@ -6,7 +6,7 @@ const test = require('../testFns');
 const {
     log, isEmpty, callN, tryCatch, typeCheck, typeCheckAll, getType,
     gt, gte, lt, lte, isNotEqual, compareDate, parseJson, isNil, pAll,
-    curryr
+    curryr, toBool
 } = require('../../lib/etc');
 
 const {
@@ -235,6 +235,16 @@ describe(
                     test.equal(rtn[0], 'a');
                     test.equal(rtn[1], 'b');
                 });
+            });
+        });
+
+        describe('toBool', () => {
+            it('should return boolean', () => {
+                test.ok(toBool({}));
+                test.ok(toBool([]));
+                test.ok(toBool(true));
+                test.notOk(toBool(''), false);
+                test.notOk(toBool(false), false);
             });
         });
     }
