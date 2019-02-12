@@ -6,7 +6,7 @@ const test = require('../testFns');
 const {
     log, isEmpty, callN, tryCatch, typeCheck, typeCheckAll, getType,
     gt, gte, lt, lte, isNotEqual, compareDate, parseJson, isNil, pAll,
-    curryr, toBool
+    curryr, toBool, iff
 } = require('../../lib/etc');
 
 const {
@@ -245,6 +245,20 @@ describe(
                 test.ok(toBool(true));
                 test.notOk(toBool(''), false);
                 test.notOk(toBool(false), false);
+            });
+        });
+
+        describe('iff', () => {
+            it('should call f when predicate true', () => {
+                const init = 10;
+                const result = iff(n => n === 10, n => n + 10)(init);
+                test.equal(result, 20);
+            });
+
+            it('should not call f when predicate false', () => {
+                const init = 10;
+                const result = iff(n => n === 11, n => n + 10)(init);
+                test.equal(result, 10);
             });
         });
     }
