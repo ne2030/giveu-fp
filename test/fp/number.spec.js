@@ -4,7 +4,7 @@ const {
 const test = require('../testFns');
 
 const {
-    random, isPositive
+    random, isPositive, roundTo
 } = require('../../lib/number');
 
 const {
@@ -39,6 +39,16 @@ describe(
 
             it('should be true when positive', () => {
                 test.notOk(isPositive(-5));
+            });
+        });
+
+        describe('roundTo', () => {
+            it('should return rounded number', () => {
+                test.equal(roundTo(1.005, 2), 1.01);
+            });
+
+            it('should return rounded number with default decimal', () => {
+                test.equal(roundTo(1.005), 1);
             });
         });
     }
