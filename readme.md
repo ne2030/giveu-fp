@@ -5,7 +5,9 @@
 
 <details><summary>ARRAY</summary>
 <p>
-##Array
+
+## Array
+
 ### arrIcludes
 ```
 example
@@ -87,7 +89,8 @@ example
 
 <details><summary>OBJECT</summary>
 <p>
-##Object
+
+## Object
 ### assign, merge
 ```
 example
@@ -138,6 +141,7 @@ example
 
 <details><summary>STRING</summary>
 <p>
+
 ## String
 ### strIntersect
 ```
@@ -169,6 +173,7 @@ example
 
 <details><summary>NUMBER</summary>
 <p>
+
 ## Number
 ### add
 ```
@@ -220,6 +225,8 @@ example
 
 <details><summary>LOGIC</summary>
 <p>
+
+## Logic
 ### allPass
 ```
 example
@@ -270,6 +277,8 @@ example
 
 <details><summary>ETC</summary>
 <p>
+
+## Etc
 ### call
 ```
 example
