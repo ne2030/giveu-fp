@@ -1,15 +1,8 @@
-const {
-    pipeS, constant, identity
-} = require('fxjs2');
 const test = require('../testFns');
 
 const {
-    random, isPositive, roundTo
+    random, isPositive, roundTo, gt, gte, lt, lte
 } = require('../../lib/number');
-
-const {
-    alwaysFalse: aF, alwaysTrue: aT, aMid, aFin
-} = require('../testValues');
 
 describe(
     test.fileNaming('Common', 'Fp_util - Number functions'),
@@ -49,6 +42,27 @@ describe(
 
             it('should return rounded number with default decimal', () => {
                 test.equal(roundTo(1.005), 1);
+            });
+        });
+
+        describe('math compare', () => {
+            it('20 is greater than 10', () => {
+                test.ok(gt(20, 10));
+            });
+            it('20 is greater than or equal 10', () => {
+                test.ok(gte(20, 10));
+            });
+            it('10 greater than or equal 10', () => {
+                test.ok(gte(10, 10));
+            });
+            it('10 is less than 20', () => {
+                test.ok(lt(10, 20));
+            });
+            it('10 is less than or equal 20', () => {
+                test.ok(lte(10, 20));
+            });
+            it('10 greater than or equal 10', () => {
+                test.ok(lte(10, 10));
             });
         });
     }

@@ -4,7 +4,7 @@ const {
 const test = require('../testFns');
 
 const {
-    ifElse, stopIf, goIf, multiFn, allPass, anyPass, or
+    ifElse, stopIf, goIf, multiFn, allPass, anyPass, or, iff
 } = require('../../lib/logic');
 
 const {
@@ -120,6 +120,20 @@ describe(
 
             it('should return first argument when "or" is curried and second argument is falsy', () => {
                 test.equal(2, or(2)(false));
+            });
+        });
+
+        describe('iff', () => {
+            it('should call f when predicate true', () => {
+                const init = 10;
+                const result = iff(n => n === 10, n => n + 10)(init);
+                test.equal(result, 20);
+            });
+
+            it('should not call f when predicate false', () => {
+                const init = 10;
+                const result = iff(n => n === 11, n => n + 10)(init);
+                test.equal(result, 10);
             });
         });
     }

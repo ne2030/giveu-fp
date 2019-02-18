@@ -5,8 +5,8 @@ const test = require('../testFns');
 
 const {
     log, isEmpty, callN, tryCatch, typeCheck, typeCheckAll, getType,
-    gt, gte, lt, lte, isNotEqual, compareDate, parseJson, isNil, pAll,
-    curryr, toBool, iff
+    compareDate, parseJson, isNil, pAll,
+    curryr, toBool
 } = require('../../lib/etc');
 
 const {
@@ -149,30 +149,6 @@ describe(
             });
         });
 
-        describe('math compare', () => {
-            it('20 is greater than 10', () => {
-                test.ok(gt(20, 10));
-            });
-            it('20 is greater than or equal 10', () => {
-                test.ok(gte(20, 10));
-            });
-            it('10 greater than or equal 10', () => {
-                test.ok(gte(10, 10));
-            });
-            it('10 is less than 20', () => {
-                test.ok(lt(10, 20));
-            });
-            it('10 is less than or equal 20', () => {
-                test.ok(lte(10, 20));
-            });
-            it('10 greater than or equal 10', () => {
-                test.ok(lte(10, 10));
-            });
-            it('10 is isFalsy equal', () => {
-                test.ok(isNotEqual(10, 20));
-            });
-        });
-
         describe('compareDate', () => {
             it('compare basic js date', () => {
                 const today = new Date();
@@ -245,20 +221,6 @@ describe(
                 test.ok(toBool(true));
                 test.notOk(toBool(''), false);
                 test.notOk(toBool(false), false);
-            });
-        });
-
-        describe('iff', () => {
-            it('should call f when predicate true', () => {
-                const init = 10;
-                const result = iff(n => n === 10, n => n + 10)(init);
-                test.equal(result, 20);
-            });
-
-            it('should not call f when predicate false', () => {
-                const init = 10;
-                const result = iff(n => n === 11, n => n + 10)(init);
-                test.equal(result, 10);
             });
         });
     }

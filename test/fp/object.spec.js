@@ -1,7 +1,7 @@
 const test = require('../testFns');
 
 const {
-    dic, val, pick, pickable, get, set, omitObj, changeKey, deepPick, deepOmit
+    dic, val, pick, pickable, get, set, omit, changeKey, deepPick, deepOmit
 } = require('../../lib/object');
 
 const object = { a: 10, b: 20, c: [1, 2] };
@@ -103,7 +103,7 @@ describe(
             });
         });
 
-        describe('omitObj', () => {
+        describe('omit', () => {
             const obj = {
                 a: 10,
                 b: [],
@@ -113,12 +113,12 @@ describe(
             };
 
             it('should omit given key', () => {
-                test.deepEqual(omitObj(['a', 'b'], obj), { c: { d: 10 } });
+                test.deepEqual(omit(['a', 'b'], obj), { c: { d: 10 } });
             });
 
             it('should omit with given predicate', () => {
                 const isNumber = n => typeof n === 'number';
-                test.deepEqual(omitObj(isNumber, obj), { b: [], c: { d: 10 } });
+                test.deepEqual(omit(isNumber, obj), { b: [], c: { d: 10 } });
             });
         });
 

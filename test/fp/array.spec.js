@@ -2,7 +2,7 @@ const test = require('../testFns');
 
 const {
     randomEl, push, unique, arrIncludes, notIn, range, intersection,
-    partition, findIndex, isEqual, shuffle
+    partition, findIndex, shuffle
 } = require('../../lib/array');
 
 const nArray = [1, 2, 3, 4, 5];
