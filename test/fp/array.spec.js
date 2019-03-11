@@ -2,7 +2,7 @@ const test = require('../testFns');
 
 const {
     randomEl, push, unique, arrIncludes, notIn, range, intersection,
-    partition, findIndex, shuffle
+    partition, findIndex, shuffle, cross
 } = require('../../lib/array');
 
 const nArray = [1, 2, 3, 4, 5];
@@ -121,6 +121,52 @@ describe(
         describe('shuffle', () => {
             it('should return shuffled array', () => {
                 test.notDeepEqual(arr1to10, shuffle(arr1to10));
+            });
+        });
+
+        describe('cross', () => {
+            it('should execute function with matched element', () => {
+                const people = [
+                    { name: 'ryan', id: 1 },
+                    { name: 'alice', id: 2 },
+                    { name: 'henry', id: 3 }
+                ];
+
+                const job = [
+                    { id: 1, job: 'dev' },
+                    { id: 2, job: 'designer' },
+                    { id: 3, job: 'front-end' }
+                ];
+
+                const result = cross(people, job, (a, b) => a.id == b.id, (a, b) => Object.assign(a, b));
+
+                test.deepEqual(result, [
+                    { name: 'ryan', id: 1, job: 'dev' },
+                    { name: 'alice', id: 2, job: 'designer' },
+                    { name: 'henry', id: 3, job: 'front-end' }
+                ]);
+            });
+
+            it('should return original if not matched', () => {
+                const people = [
+                    { name: 'ryan', id: 1 },
+                    { name: 'alice', id: 2 },
+                    { name: 'henry', id: 3 }
+                ];
+
+                const job = [
+                    { id: 1, job: 'dev' },
+                    { id: 2, job: 'designer' },
+                    { id: 4, job: 'front-end' }
+                ];
+
+                const result = cross(people, job, (a, b) => a.id == b.id, (a, b) => Object.assign(a, b));
+
+                test.deepEqual(result, [
+                    { name: 'ryan', id: 1, job: 'dev' },
+                    { name: 'alice', id: 2, job: 'designer' },
+                    { name: 'henry', id: 3 }
+                ]);
             });
         });
     }

@@ -1,7 +1,7 @@
 const test = require('../testFns');
 
 const {
-    dic, val, pick, pickable, get, set, omit, changeKey, deepPick, deepOmit
+    dic, val, pick, pickable, get, set, omit, changeKey, deepPick, deepOmit, evolve, renew,
 } = require('../../lib/object');
 
 const object = { a: 10, b: 20, c: [1, 2] };
@@ -100,6 +100,44 @@ describe(
             it('curried chnage Key', () => {
                 const result = changeKey('e', 'b')(deepObj);
                 test.equal(result.b, 20);
+            });
+        });
+
+        describe('evolve', () => {
+            it('change values with transform fn', () => {
+                const toUp = str => str.toUpperCase();
+                const toLow = str => str.toLowerCase();
+                const mul100 = n => n * 100;
+
+                const obj = {
+                    a: 'abcde',
+                    b: 'AbCdE',
+                    c: 12,
+                };
+
+                const trans = {
+                    a: toUp,
+                    b: toLow,
+                    c: mul100,
+                };
+
+                const result = evolve(trans, obj);
+
+                test.deepEqual(result, { a: 'ABCDE', b: 'abcde', c: 1200 });
+            });
+        });
+
+        describe('rewew', () => {
+            it('change value of key with fn', () => {
+                const toUp = str => str.toUpperCase();
+                const obj = {
+                    a: 'abcde',
+                    b: 'fghij',
+                };
+
+                const result = renew('a', toUp)(obj);
+
+                test.deepEqual(result, { a: 'ABCDE', b: 'fghij' });
             });
         });
 
