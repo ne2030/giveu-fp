@@ -133,8 +133,8 @@ describe(
                 ];
 
                 const job = [
-                    { id: 1, job: 'dev' },
                     { id: 2, job: 'designer' },
+                    { id: 1, job: 'dev' },
                     { id: 3, job: 'front-end' }
                 ];
 
@@ -155,17 +155,18 @@ describe(
                 ];
 
                 const job = [
-                    { id: 1, job: 'dev' },
+                    { id: 3, job: 'dev' },
                     { id: 2, job: 'designer' },
                     { id: 4, job: 'front-end' }
                 ];
 
-                const result = cross(people, job, (a, b) => a.id == b.id, (a, b) => Object.assign(a, b));
+                const result = cross(people, job, (a, b) => (console.log(a, b),
+                a.id == b.id), (a, b) => Object.assign(a, b));
 
                 test.deepEqual(result, [
-                    { name: 'ryan', id: 1, job: 'dev' },
+                    { name: 'ryan', id: 1 },
                     { name: 'alice', id: 2, job: 'designer' },
-                    { name: 'henry', id: 3 }
+                    { name: 'henry', id: 3, job: 'dev' }
                 ]);
             });
         });
