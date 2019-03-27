@@ -2,7 +2,7 @@ const test = require('../testFns');
 
 const {
     randomEl, push, unique, arrIncludes, notIn, range, intersection,
-    partition, findIndex, shuffle, cross
+    partition, findIndex, shuffle, cross, addRatio
 } = require('../../lib/array');
 
 const nArray = [1, 2, 3, 4, 5];
@@ -160,13 +160,59 @@ describe(
                     { id: 4, job: 'front-end' }
                 ];
 
-                const result = cross(people, job, (a, b) => (console.log(a, b),
-                a.id == b.id), (a, b) => Object.assign(a, b));
+                const result = cross(people, job, (a, b) => a.id == b.id, (a, b) => Object.assign(a, b));
 
                 test.deepEqual(result, [
                     { name: 'ryan', id: 1 },
                     { name: 'alice', id: 2, job: 'designer' },
                     { name: 'henry', id: 3, job: 'dev' }
+                ]);
+            });
+
+            it('should adapt nf function if not matched', () => {
+                const people = [
+                    { name: 'ryan', id: 1 },
+                    { name: 'alice', id: 2 },
+                    { name: 'henry', id: 3 },
+                    { name: 'jacob', id: 4 }
+                ];
+
+                const job = [
+                    { id: 3, job: 'dev' },
+                    { id: 2, job: 'designer' },
+                    { id: 5, job: 'front-end' }
+                ];
+
+                const result = cross(
+                    people, job,
+                    (a, b) => a.id == b.id,
+                    (a, b) => Object.assign(a, b),
+                    a => (a.job = 'none', a)
+                );
+
+                test.deepEqual(result, [
+                    { name: 'ryan', id: 1, job: 'none' },
+                    { name: 'alice', id: 2, job: 'designer' },
+                    { name: 'henry', id: 3, job: 'dev' },
+                    { name: 'jacob', id: 4, job: 'none' }
+                ]);
+            });
+        });
+
+        describe('addRatio', () => {
+            it('should calculate and add ratio', () => {
+                const data = [
+                    { amount: 100 },
+                    { amount: 200 },
+                    { amount: 300 },
+                    { amount: 400 },
+                ];
+
+                test.deepEqual(addRatio(x => x.amount, data), [
+                    { amount: 100, ratio: 0.1 },
+                    { amount: 200, ratio: 0.2 },
+                    { amount: 300, ratio: 0.3 },
+                    { amount: 400, ratio: 0.4 },
                 ]);
             });
         });
