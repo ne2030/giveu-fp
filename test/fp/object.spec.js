@@ -1,3 +1,6 @@
+const { map } = require('fxjs2');
+
+
 const test = require('../testFns');
 
 const {
@@ -89,6 +92,13 @@ describe(
                 const assignA = set(['a', 'b', 'd'], 2);
                 test.deepEqual(assignA(obj), obj);
             });
+
+            it('should work with map', () => {
+                const data = [{}, {}, {}, {}];
+
+                const b = 2;
+                test.deepEqual(map(set('b', b))(data), [{ b: 2 }, { b: 2 }, { b: 2 }, { b: 2 }]);
+            });
         });
 
         describe('changeKey', () => {
@@ -161,16 +171,40 @@ describe(
         });
 
         describe('deepOmit', () => {
-            it('should omit deep Object', () => {
-                const deepPattern = ['a', 'b', 'c', 'd'];
-                const result = deepOmit(deepPattern, deepObj);
-                test.deepEqual(result, { a: { b: { c: {} } }, e: 20, f: 30 });
+            const deep = {
+                a: {
+                    b: {
+                        c: {
+                            d: 100
+                        }
+                    }
+                },
+                e: {
+                    f: 20,
+                    g: 30
+                },
+                h: {
+                    i: 30,
+                    j: 1,
+                }
+            };
+
+            it('should omit deep object', () => {
+                const deepPattern = 'a.b.c.d';
+                const result = deepOmit(deepPattern)(deep);
+                test.deepEqual(result, { a: { b: { c: {} } }, e: { f: 20, g: 30 }, h: { i: 30, j: 1 } });
             });
 
             it('curried deep omit Object', () => {
-                const deepPattern = ['a', 'b', 'c', 'd'];
-                const result = deepOmit(deepPattern)(deepObj);
-                test.deepEqual(result, { a: { b: { c: {} } }, e: 20, f: 30 });
+                const deepPattern = 'a.b.c.d';
+                const result = deepOmit(deepPattern)(deep);
+                test.deepEqual(result, { a: { b: { c: {} } }, e: { f: 20, g: 30 }, h: { i: 30, j: 1 } });
+            });
+
+            it('should omit multiple keys', () => {
+                const deepKeys = ['a.b.c.d', 'e.f', 'h.j'];
+                const result = deepOmit(deepKeys)(deep);
+                test.deepEqual(result, { a: { b: { c: {} } }, e: { g: 30 }, h: { i: 30 } });
             });
         });
 

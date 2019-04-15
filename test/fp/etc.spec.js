@@ -4,9 +4,9 @@ const { identity, constant } = require('fxjs2');
 const test = require('../testFns');
 
 const {
-    log, isEmpty, callN, tryCatch, typeCheck, typeCheckAll, getType,
+    log, isEmpty, callN, tryCatch, typeCheck, typeCheckAll, getType, typeCompare,
     compareDate, parseJson, isNil, pAll,
-    curryr, toBool
+    curryr, toBool,
 } = require('../../lib/etc');
 
 const {
@@ -146,6 +146,20 @@ describe(
                 test.equal(getType(null), 'null');
                 test.equal(getType(() => { }), 'function');
                 test.equal(getType(true), 'boolean');
+            });
+        });
+
+        describe('typeCompare', () => {
+            it('compare type with data', () => {
+                test.ok(typeCompare({}, { a: 1 }));
+                test.ok(typeCompare([], [1, 2, 3]));
+                test.ok(typeCompare(1, 2));
+                test.ok(typeCompare('1', '2'));
+                test.ok(typeCompare(undefined, undefined));
+                test.notOk(typeCompare(1, null));
+                test.notOk(typeCompare('1', 1));
+                test.notOk(typeCompare({}, []));
+                test.notOk(typeCompare(null, undefined));
             });
         });
 

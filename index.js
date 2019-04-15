@@ -1,18 +1,24 @@
 const FXJS = require('fxjs2');
 
-const array = require('./lib/array');
-const etc = require('./lib/etc');
-const logic = require('./lib/logic');
-const number = require('./lib/number');
-const object = require('./lib/object');
-const string = require('./lib/string');
+const Arr = require('./lib/array');
+const Etc = require('./lib/etc');
+const Logic = require('./lib/logic');
+const Num = require('./lib/number');
+const Obj = require('./lib/object');
+const Str = require('./lib/string');
 
 module.exports = {
     ...FXJS,
-    ...array,
-    ...etc,
-    ...logic,
-    ...number,
-    ...object,
-    ...string
+    ...Arr,
+    ...Etc,
+    ...Logic,
+    ...Num,
+    ...Obj,
+    ...Str,
+    Arr,
+    Etc,
+    Logic,
+    Num,
+    Obj,
+    Str
 };

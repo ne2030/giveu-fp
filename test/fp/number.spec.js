@@ -1,7 +1,7 @@
 const test = require('../testFns');
 
 const {
-    random, isPositive, roundTo, gt, gte, lt, lte
+    random, isPositive, roundTo, gt, gte, lt, lte, isUnit
 } = require('../../lib/number');
 
 describe(
@@ -63,6 +63,18 @@ describe(
             });
             it('10 greater than or equal 10', () => {
                 test.ok(lte(10, 10));
+            });
+        });
+
+        describe('isUnit', () => {
+            it('should predicate true', () => {
+                test.ok(isUnit(100, 500));
+                test.ok(isUnit(1000, 5000));
+            });
+
+            it('should predicate false', () => {
+                test.notOk(isUnit(100, 501));
+                test.notOk(isUnit(2, 5001));
             });
         });
     }

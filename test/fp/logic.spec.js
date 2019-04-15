@@ -4,7 +4,7 @@ const {
 const test = require('../testFns');
 
 const {
-    ifElse, stopIf, goIf, multiFn, allPass, anyPass, or, iff
+    ifElse, stopIf, goIf, multiFn, allPass, anyPass, or, iff, xor
 } = require('../../lib/logic');
 
 const {
@@ -120,6 +120,30 @@ describe(
 
             it('should return first argument when "or" is curried and second argument is falsy', () => {
                 test.equal(2, or(2)(false));
+            });
+        });
+
+        describe('xor', () => {
+            it('should return true when xor', () => {
+                test.ok(xor(1, 0));
+                test.ok(xor(0, 1));
+                test.ok(xor(true, false));
+                test.ok(xor(false, true));
+                test.ok(xor('', true));
+                test.ok(xor(true, ''));
+                test.ok(xor(undefined, 'abc'));
+                test.ok(xor('abc', undefined));
+            });
+
+            it('should return false when xor', () => {
+                test.notOk(xor(1, 1));
+                test.notOk(xor(0, 0));
+                test.notOk(xor(true, true));
+                test.notOk(xor(false, false));
+                test.notOk(xor('', false));
+                test.notOk(xor(false, ''));
+                test.notOk(xor(true, 'abc'));
+                test.notOk(xor(null, undefined));
             });
         });
 
