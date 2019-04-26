@@ -1,7 +1,7 @@
 const test = require('../testFns');
 
 const {
-    strIntersect, strJoin, strSplit, toUp, toLow
+    strIntersect, strJoin, strSplit, toUp, toLow, prefix, suffix
 } = require('../../lib/string');
 
 describe(
@@ -71,6 +71,20 @@ describe(
         describe('toLow', () => {
             it('should return lowercase', () => {
                 test.equal(toLow('ABCDE'), 'abcde');
+            });
+        });
+
+        describe('prefix', () => {
+            it('add prefix', () => {
+                const addA = prefix('a');
+                test.equal(addA('b'), 'ab');
+            });
+        });
+
+        describe('prefix', () => {
+            it('add prefix', () => {
+                const addA = suffix('a');
+                test.equal(addA('b'), 'ba');
             });
         });
     }

@@ -4,7 +4,7 @@ const { map } = require('fxjs2');
 const test = require('../testFns');
 
 const {
-    dic, val, pick, pickable, get, set, omit, changeKey, deepPick, deepOmit, evolve, renew,
+    dic, val, pick, pickable, get, set, omit, changeKey, deepPick, deepOmit, evolve, renew, deepAssign, has
 } = require('../../lib/object');
 
 const object = { a: 10, b: 20, c: [1, 2] };
@@ -110,6 +110,12 @@ describe(
             it('curried chnage Key', () => {
                 const result = changeKey('e', 'b')(deepObj);
                 test.equal(result.b, 20);
+            });
+
+            it('not throw error when not have key', () => {
+                const testObj = { a: 1 };
+                const result = changeKey('b', 'c')(testObj);
+                test.deepEqual(result, { a: 1 });
             });
         });
 
@@ -252,6 +258,52 @@ describe(
                 const deepPattern = ['a', { c: ['aa', { cc: ['aaa'] }] }];
                 const result = deepPick(deepPattern)(deep);
                 test.deepEqual(result, { a: 1, c: { aa: 10, cc: { aaa: 100 } } });
+            });
+        });
+
+        describe('deepAssign', () => {
+            it('should assign to deep object', () => {
+                const deep = {
+                    a: {
+                        b: 1,
+                    }
+                };
+
+                const result = deepAssign('a', { c: 2, d: 3 })(deep);
+                test.deepEqual(result, { a: { b: 1, c: 2, d: 3 } });
+            });
+
+            it('should assign to deep object', () => {
+                const deep = {
+                    a: {
+                        b: 1,
+                    }
+                };
+
+                const result = deepAssign('a', { c: 2, d: 3 })(deep);
+                test.notEqual(result, deep);
+                test.deepEqual(result, { a: { b: 1, c: 2, d: 3 } });
+            });
+        });
+
+        describe('has', () => {
+            it('should return true when has key', () => {
+                const obj = { a: 1 };
+
+                test.equal(has('a', obj), true);
+            });
+
+            it('should return false when not has key', () => {
+                const obj = { a: 1 };
+
+                test.equal(has('b', obj), false);
+            });
+
+            it('should work with currying', () => {
+                const obj = { a: 1 };
+
+                test.equal(has('a')(obj), true);
+                test.equal(has('b')(obj), false);
             });
         });
     }

@@ -1,8 +1,8 @@
 const test = require('../testFns');
 
 const {
-    randomEl, push, unique, arrIncludes, notIn, range, intersection,
-    partition, findIndex, shuffle, cross, addRatio
+    randomEl, push, unique, arrIncludes, notIn, range, intersection, pararell,
+    partition, findIndex, shuffle, cross, addRatio, splitEvery, groupWith
 } = require('../../lib/array');
 
 const nArray = [1, 2, 3, 4, 5];
@@ -214,6 +214,47 @@ describe(
                     { amount: 300, ratio: 0.3 },
                     { amount: 400, ratio: 0.4 },
                 ]);
+            });
+        });
+
+        describe('splitEvery', () => {
+            it('should split iterble into length n array', () => {
+                const xs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+                test.deepEqual(splitEvery(2, xs), [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]);
+                test.deepEqual(splitEvery(3, xs), [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]);
+            });
+        });
+
+        describe('groupWith', () => {
+            it('should group with predicate as array', () => {
+                const xs = [
+                    { a: 1 },
+                    { a: 2 },
+                    { a: 1 },
+                    { a: 3 },
+                ];
+
+                const result = groupWith(obj => obj.a, xs);
+                test.deepEqual(result, [[{ a: 1 }, { a: 1 }], [{ a: 2 }], [{ a: 3 }]]);
+            });
+        });
+
+        describe('pararell', () => {
+            it('should predicate same index elements - origin value', () => {
+                const xs = [1, 2, 3, 4, 5];
+                const ys = [6, 7, 8, 9, 10];
+                const add = (a, b) => a + b;
+
+                test.deepEqual(pararell(xs, ys, add), [7, 9, 11, 13, 15]);
+            });
+
+            it('should predicate same index elements - reference value', () => {
+                const xs = [{ a: 1 }, { a: 2 }, { a: 3 }];
+                const ys = [1, 3, 5];
+                const set = (a, b) => ({ ...a, b });
+
+                test.deepEqual(pararell(xs, ys, set), [{ a: 1, b: 1 }, { a: 2, b: 3 }, { a: 3, b: 5 }]);
             });
         });
     }

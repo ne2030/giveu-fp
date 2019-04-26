@@ -36,6 +36,8 @@
         "no-sequences": 0,
         "no-cond-assign": 0,
         "object-property-newline": 0,
-        "prefer-arrow-callback": 0
+        "prefer-arrow-callback": 0,
+        "one-var": 0,
+        "one-var-declaration-per-line": 0
     }
 }
