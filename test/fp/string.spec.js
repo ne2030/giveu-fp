@@ -1,7 +1,7 @@
 const test = require('../testFns');
 
 const {
-    strIntersect, strJoin, strSplit, toUp, toLow, prefix, suffix
+    strIntersect, strJoin, strSplit, toUp, toLow, prefix, suffix, includes
 } = require('../../lib/string');
 
 describe(
@@ -85,6 +85,29 @@ describe(
             it('add prefix', () => {
                 const addA = suffix('a');
                 test.equal(addA('b'), 'ba');
+            });
+        });
+
+        describe('includes', () => {
+            it('true when includes', () => {
+                const text = 'abcde';
+                const part = 'bc';
+
+                test.ok(includes(part, text));
+            });
+
+            it('false when not includes', () => {
+                const text = 'abcde';
+                const part = 'bec';
+
+                test.notOk(includes(part, text));
+            });
+
+            it('curry includes', () => {
+                const text = 'abcde';
+                const part = 'bc';
+
+                test.ok(includes(part)(text));
             });
         });
     }
