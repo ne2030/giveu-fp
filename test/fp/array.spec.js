@@ -1,9 +1,12 @@
+const { identity } = require('fxjs2');
 const test = require('../testFns');
 
 const {
     randomEl, push, unique, arrIncludes, notIn, range, intersection, pararell,
-    partition, findIndex, shuffle, cross, addRatio, splitEvery, groupWith
+    partition, findIndex, shuffle, cross, addRatio, splitEvery, groupWith, orderBy,
 } = require('../../lib/array');
+
+const { val } = require('../../lib/object');
 
 const nArray = [1, 2, 3, 4, 5];
 const arr1to10 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -256,6 +259,69 @@ describe(
 
                 test.deepEqual(pararell(xs, ys, set), [{ a: 1, b: 1 }, { a: 2, b: 3 }, { a: 3, b: 5 }]);
             });
+        });
+
+        describe('orderBy', () => {
+            it('should order by one depth criteria - number', () => {
+                const arr = [1, 4, 2, 3, 5];
+
+                test.deepEqual(orderBy(identity)(arr), [1, 2, 3, 4, 5]);
+            });
+
+            it('should order by one depth criteria', () => {
+                const arr = [
+                    { name: 'z', order: 100 },
+                    { name: 'e', order: 5 },
+                    { name: 'a', order: 1 },
+                    { name: 'c', order: 3 },
+                ];
+
+                const expected = [
+                    { name: 'a', order: 1 },
+                    { name: 'c', order: 3 },
+                    { name: 'e', order: 5 },
+                    { name: 'z', order: 100 },
+                ];
+
+                test.deepEqual(orderBy(a => a.order)(arr), expected);
+            });
+
+            it('should order by several criteria - 2', () => {
+                const arr = [
+                    { id: 1, n: 100, age: 50 },
+                    { id: 2, n: 200, age: 10 },
+                    { id: 3, n: 150, age: 50 },
+                    { id: 4, n: 100, age: 30 },
+                    { id: 5, n: 200, age: 50 },
+                    { id: 6, n: 200, age: 90 },
+                    { id: 7, n: 300, age: 51 },
+                    { id: 8, n: 300, age: 50 },
+                ];
+
+                const expected = [
+                    { id: 2, n: 200, age: 10 },
+                    { id: 4, n: 100, age: 30 },
+                    { id: 1, n: 100, age: 50 },
+                    { id: 3, n: 150, age: 50 },
+                    { id: 5, n: 200, age: 50 },
+                    { id: 8, n: 300, age: 50 },
+                    { id: 7, n: 300, age: 51 },
+                    { id: 6, n: 200, age: 90 },
+                ];
+
+                test.deepEqual(
+                    orderBy(val('age'), val('n'))(arr),
+                    expected
+                );
+            });
+
+            // it('should predicate same index elements - reference value', () => {
+            //     const xs = [{ a: 1 }, { a: 2 }, { a: 3 }];
+            //     const ys = [1, 3, 5];
+            //     const set = (a, b) => ({ ...a, b });
+
+            //     test.deepEqual(pararell(xs, ys, set), [{ a: 1, b: 1 }, { a: 2, b: 3 }, { a: 3, b: 5 }]);
+            // });
         });
     }
 );
