@@ -1,8 +1,9 @@
 const { identity } = require('fxjs2');
+
 const test = require('../testFns');
 
 const {
-    randomEl, push, unique, arrIncludes, notIn, range, intersection, pararell,
+    randomEl, push, unique, arrIncludes, notIn, range, intersection, pararell, intersectionBy,
     partition, findIndex, shuffle, cross, addRatio, splitEvery, groupWith, orderBy,
 } = require('../../lib/array');
 
@@ -98,6 +99,18 @@ describe(
             it('should return empty arr', () => {
                 test.deepEqual(intersection([], []), []);
                 test.deepEqual(intersection(arr1to10, []), []);
+            });
+        });
+
+        describe('intersectionBy', () => {
+            const arr6to15 = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+            it('should return intersection of two array', () => {
+                test.deepEqual(intersectionBy(identity, arr1to10, arr6to15), [6, 7, 8, 9, 10]);
+            });
+
+            it('should return empty arr', () => {
+                test.deepEqual(intersectionBy(identity, [], []), []);
+                test.deepEqual(intersectionBy(identity, arr1to10, []), []);
             });
         });
 

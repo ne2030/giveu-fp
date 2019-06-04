@@ -1,7 +1,7 @@
 const test = require('../testFns');
 
 const {
-    strIntersect, strJoin, strSplit, toUp, toLow, prefix, suffix, includes
+    strJoin, strSplit, toUp, toLow, prefix, suffix, includes
 } = require('../../lib/string');
 
 describe(
@@ -22,21 +22,6 @@ describe(
 
             it('should return empty array for isFalsy string and isFalsy number', () => {
                 test.deepEqual(strSplit(',')(testObject), []);
-            });
-        });
-
-        describe('strIntersect', () => {
-            const str1 = 'ryan,henry,alice,alex';
-            const str2 = 'alice,nick,henry';
-            const str3 = '1234,5678,91234';
-            const testNumber = 1234;
-
-            it('should return intersect string', () => {
-                test.equal(strIntersect(str1, str2), 'henry,alice');
-            });
-
-            it('auto type conversion with number', () => {
-                test.equal(strIntersect(str3, testNumber), '1234');
             });
         });
 
