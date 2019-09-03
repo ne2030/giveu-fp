@@ -4,7 +4,8 @@ const { map } = require('fxjs2');
 const test = require('../testFns');
 
 const {
-    dic, val, pick, pickable, get, set, omit, changeKey, deepPick, deepOmit, evolve, renew, deepAssign, has
+    dic, val, pick, pickable, get, set, omit, changeKey, deepPick, deepOmit, evolve, renew, deepAssign, has,
+    sanitizer,
 } = require('../../lib/object');
 
 const object = { a: 10, b: 20, c: [1, 2] };
@@ -304,6 +305,87 @@ describe(
 
                 test.equal(has('a')(obj), true);
                 test.equal(has('b')(obj), false);
+            });
+        });
+
+        describe('sanitizer', () => {
+            const param = {
+                num: 1,
+                str: 'str',
+                arr: [1, 2, 3],
+                obj: {
+                    num: 1, arr: [], bool: true, str: 'str'
+                },
+            };
+
+            it('should check types', () => {
+                it('success', () => {
+                    test.deepEqual(sanitizer({
+                        num: 1,
+                        str: 'str',
+                        arr: [1],
+                        obj: {
+                            num: 1, arr: [], bool: true, str: 'str'
+                        },
+                    })(param), param);
+                });
+
+                it('fail - obj.num', () => {
+                    try {
+                        sanitizer({
+                            num: 1,
+                            str: 'str',
+                            arr: [1],
+                            obj: {
+                                num: '1', arr: [], bool: true, str: 'str'
+                            },
+                        });
+                        const a = 1;
+                        test.notEqual(a, 1);
+                    } catch (err) {
+                        test.equal(err, 'num');
+                    }
+                });
+            });
+
+            it('should check with custom function', () => {
+                it('success', () => {
+                    sanitizer({
+                        num: a => a === 1,
+                        str: str => str.length < 5,
+                        arr: xs => xs.every(x => x < 5),
+                        obj: {
+                            num: n => n < 5,
+                        }
+                    })(param);
+                });
+
+                it('fail - string length', () => {
+                    try {
+                        sanitizer({
+                            num: a => a === 1,
+                            str: str => str.length > 5,
+                            arr: xs => xs.every(x => x < 5),
+                            obj: {
+                                num: n => n < 5,
+                            }
+                        })(param);
+                    } catch (err) {
+                        test.equal(err, 'str');
+                    }
+                });
+            });
+
+            it('should sanitize values', () => {
+                sanitizer({
+                    num: a => a + 1,
+                    str: `${str}ing`,
+
+                });
+            });
+
+            it('should throw custom errors', () => {
+
             });
         });
     }
